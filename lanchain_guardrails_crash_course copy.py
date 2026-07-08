@@ -1,3 +1,5 @@
+#Section 2: Two approaches to guardrails: Deterministic and Model-based
+
 from dotenv import load_dotenv
 load_dotenv()
 import re
@@ -45,7 +47,7 @@ for inp in text_inputs:
     print(f"Input: {inp} | Status: {status}")
 
 
-#Built in Guardrail-PII Detection Middleware
+#Section3 : Built in Guardrail-PII Detection Middleware
  # Supported PII types: email, phone number, credit card, ssn, ip address, and more.
  
  # strategies
