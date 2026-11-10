@@ -33,13 +33,13 @@ async def main():
 
     tools = await client.get_tools()# get tools means get information of that cleint tool or weather and math here 
     model=ChatGroq(model="openai/gpt-oss-120b")
-    '''agent = create_agent(
+    agent = create_agent(
         model=model,
         tools=tools
-    )'''
-    agent = create_react_agent(
-        model=model,tools=tools
     )
+    '''agent = create_react_agent(
+        model=model,tools=tools
+    )'''
     math_response = await agent.ainvoke(
         {"messages": [{"role": "user", "content": "what is 8 plus 5??"}]}
     )
