@@ -7,19 +7,31 @@ from acp import PROTOCOL_VERSION, spawn_agent_process, text_block
 from acp.interfaces import Client
 
 
+
 class SimpleClient(Client):
-    async def request_permission(self, options, session_id, tool_call, **kwargs: Any):
-        # auto-approve the first offered option
-        return {"outcome": {"outcome": "selected", "optionId": options[0].option_id}}
+
+    async def request_permission(
+        self, session_id, tool_call, options, **kwargs: Any
+    ):
+        if not options:
+            raise RuntimeError("ACP returned no permission options")
+
+        return {
+            "outcome": {
+                "outcome": "selected",
+                "optionId": options[0].option_id,
+            }
+        }
 
     async def session_update(self, session_id, update, **kwargs):
         if update.session_update == "agent_message_chunk":
             print(update.content.text, end="", flush=True)
+
         elif update.session_update == "tool_call":
             print(f"\n[tool call: {update.title}]", flush=True)
+
         elif update.session_update == "tool_call_update":
             print(f"\n[tool update: {update.status}]", flush=True)
-
 
 async def main() -> None:
     async with spawn_agent_process(
